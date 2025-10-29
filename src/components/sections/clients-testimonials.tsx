@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { ArrowRightIcon, Quote, QuoteIcon, TextQuote } from "lucide-react";
 import Marquee from "react-fast-marquee";
 
 export default function ClientsTestimonials({ onContact }: { onContact?: () => void }) {
@@ -36,16 +37,21 @@ export default function ClientsTestimonials({ onContact }: { onContact?: () => v
         <div className="w-full grid sm:grid-cols-2 gap-6">
         <QuoteCard
           quote="Incorporar DataOK nos permitió automatizar controles que hacíamos a mano. Hoy validamos más, más rápido y con menos errores."
-          author="Payroll Manager, empresa regional"
+          author="Payroll Manager"
+          company="Empresa Regional"
         />
         <QuoteCard
           quote="No sabíamos cuántos errores evitábamos hasta que DataOK los empezó a mostrar."
-          author="Controller financiero, multinacional"
+          author="Controller financiero"
+          company="Multinacional"
         />
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <Button size="lg" className="rounded-full px-8" onClick={onContact}>Contáctanos</Button>
+        <Button size="lg" className="hover:scale-105 transition-all duration-300" onClick={onContact}>
+          Contáctanos
+          <ArrowRightIcon className="size-4" />
+        </Button>
           <p className="text-center text-sm text-muted-foreground">
             Sin implementación costosa · Sin compromiso · Con soporte real
           </p>
@@ -63,13 +69,19 @@ function LogoBox({ children }: { children: React.ReactNode }) {
   )
 }
 
-function QuoteCard({ quote, author }: { quote: string; author: string }) {
+function QuoteCard({ quote, author, company }: { quote: string; author: string; company: string }) {
   return (
-    <figure className="rounded-xl bg-card shadow-sm border p-6 relative bg-transparent">
-      <blockquote className="text-lg leading-relaxed italic text-foreground">
-        “{quote}”
-        </blockquote>
-        <figcaption className="mt-6 text-foreground/80 italic">– {author}</figcaption>
-    </figure>
+    <div className="rounded-xl bg-card shadow-sm border p-6 relative bg-transparent flex flex-col justify-between">
+      <div className="absolute top-2 right-2">
+        <QuoteIcon className="size-6  text-primary" />
+      </div>
+      <p className="text-lg italic text-foreground">
+        {quote}
+      </p>
+      <div className="mt-6">
+        <p className="text-foreground/80 font-bold">{author}</p>
+        <p className="text-foreground/80">{company}</p>
+      </div>
+    </div>
   )
 }

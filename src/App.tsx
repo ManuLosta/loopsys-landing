@@ -6,15 +6,19 @@ import ClientsTestimonials from "@/components/sections/clients-testimonials"
 import ContactFlow from "@/components/contact-flow"
 
 function App() {
-  const [contactOpen, setContactOpen] = useState(false)
-  const openContact = () => setContactOpen(true)
+  const [showForm, setShowForm] = useState(false)
+
+  // Renderizado condicional: mostrar formulario o landing
+  if (showForm) {
+    return <ContactFlow onClose={() => setShowForm(false)} />
+  }
+
   return (
     <>
-      <Hero onContact={openContact} />
+      <Hero onContact={() => setShowForm(true)} />
       <MeetingPreview />
       <CommonProblems />
-      <ClientsTestimonials onContact={openContact} />
-      <ContactFlow open={contactOpen} onOpenChange={setContactOpen} />
+      <ClientsTestimonials onContact={() => setShowForm(true)} />
     </>
   )
 }

@@ -226,34 +226,36 @@ export default function StepForm({ onComplete }: StepFormProps) {
   }
 
   return (
-    <div className="flex flex-col gap-8 max-w-3xl mx-auto w-full">
+    <div className="flex flex-col gap-8 max-w-3xl mx-auto w-full pb-24 md:pb-0">
       <Stepper currentStep={currentStep} totalSteps={totalSteps} />
       
       <div className="min-h-[400px] flex items-center justify-center">
         {renderQuestion()}
       </div>
 
-      <div className="flex items-center justify-between gap-3 pt-6">
-        <div>
-          {currentStep > 1 && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleBack}
-              className="rounded-full px-6"
-            >
-              Atrás
-            </Button>
-          )}
+      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:static md:px-0 md:py-0 md:bg-transparent md:backdrop-blur-0">
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-3">
+          <div>
+            {currentStep > 1 && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleBack}
+                className="px-6"
+              >
+                Atrás
+              </Button>
+            )}
+          </div>
+          <Button
+            type="button"
+            onClick={handleNext}
+            disabled={!canProceed()}
+            className="px-6"
+          >
+            {currentStep === totalSteps ? "Finalizar" : "Siguiente"}
+          </Button>
         </div>
-        <Button
-          type="button"
-          onClick={handleNext}
-          disabled={!canProceed()}
-          className="rounded-full px-6"
-        >
-          {currentStep === totalSteps ? "Finalizar" : "Siguiente"}
-        </Button>
       </div>
     </div>
   )

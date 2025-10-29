@@ -40,6 +40,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        env:
+          VITE_BASE_PATH: /loopsys-landing/
         run: pnpm run build
 
       - name: Setup Pages

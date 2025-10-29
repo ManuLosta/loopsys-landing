@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ArrowRightIcon, Quote, QuoteIcon, TextQuote } from "lucide-react";
+import { ArrowRightIcon, QuoteIcon } from "lucide-react";
 import Marquee from "react-fast-marquee";
 
 export default function ClientsTestimonials({ onContact }: { onContact?: () => void }) {

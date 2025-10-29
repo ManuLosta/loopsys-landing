@@ -233,15 +233,16 @@ export default function StepForm({ onComplete }: StepFormProps) {
         {renderQuestion()}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:static md:px-0 md:py-0 md:bg-transparent md:backdrop-blur-0">
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-3">
+      <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:static md:px-0 md:py-0 md:bg-transparent md:backdrop-blur-0 z-40 overflow-visible">
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <div>
             {currentStep > 1 && (
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleBack}
-                className="px-6"
+                size="lg"
+                className="h-12 px-8 text-base"
               >
                 Atrás
               </Button>
@@ -251,9 +252,20 @@ export default function StepForm({ onComplete }: StepFormProps) {
             type="button"
             onClick={handleNext}
             disabled={!canProceed()}
-            className="px-6"
+            size="lg"
+            className="h-12 px-8 text-base"
           >
-            {currentStep === totalSteps ? "Finalizar" : "Siguiente"}
+            <span>{currentStep === totalSteps ? "Finalizar" : "Siguiente"}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="size-5"
+              aria-hidden="true"
+            >
+              <path d="M13.293 4.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 1 1-1.414-1.414L17.586 12l-4.293-4.293a1 1 0 0 1 0-1.414Z"/>
+              <path d="M3 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Z"/>
+            </svg>
           </Button>
         </div>
       </div>

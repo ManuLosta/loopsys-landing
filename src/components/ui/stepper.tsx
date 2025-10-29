@@ -15,8 +15,11 @@ export function Stepper({ currentStep, totalSteps, className }: StepperProps) {
         const isCompleted = stepNumber < currentStep
         
         return (
-          <div key={stepNumber} className="flex items-center flex-1">
-            <div className="flex flex-col items-center gap-2 flex-1">
+          <div
+            key={stepNumber}
+            className={stepNumber < totalSteps ? "flex items-center flex-1" : "flex items-center"}
+          >
+            <div className="flex flex-col items-center gap-2 shrink-0">
               {/* Step Circle */}
               <div
                 className={cn(

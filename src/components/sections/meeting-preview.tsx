@@ -1,7 +1,15 @@
+import { motion } from "motion/react";
+
 export default function MeetingPreview() {
   return (
     <section className="bg-muted py-16">
-      <div className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-6"
+      >
         <div className="bg-primary text-primary-foreground px-6 py-2 rounded-xl font-semibold">
           En una llamada de 30 mins vamos a…
         </div>
@@ -25,7 +33,7 @@ export default function MeetingPreview() {
         <p className="text-center text-sm italic max-w-[640px]">
           *No es una reunión de venta. Es una conversación para entender tu proyecto, analizarlo y darte claridad antes de avanzar.*
         </p>
-      </div>
+      </motion.div>
     </section>
   )
 }

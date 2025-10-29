@@ -4,12 +4,14 @@ import { motion } from "motion/react";
 
 export default function Hero({ onContact }: { onContact?: () => void }) {
   return (
-    <section className="py-64">
-      <motion.div 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-4">
+    <section className="min-h-screen flex items-center">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-4"
+      >
         <h1 
         className="sm:text-6xl text-3xl text-primary text-center">
           <span className="font-bold">PRUEBA</span> DE CONCEPTO CON <span className="font-bold">RESULTADOS MEDIBLES</span> EN <span className="font-bold">30 DIAS</span>

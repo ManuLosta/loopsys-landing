@@ -1,7 +1,15 @@
+import { motion } from "motion/react";
+
 export default function CommonProblems() {
   return (
     <section className="py-16">
-      <div className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-8">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-8"
+      >
         <div className="flex flex-col items-center gap-3">
           <h2 className="text-3xl sm:text-4xl text-primary font-semibold text-center">
             PROBLEMAS COMÚNES
@@ -32,7 +40,7 @@ export default function CommonProblems() {
             />
           </ul>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

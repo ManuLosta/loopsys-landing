@@ -1,25 +1,38 @@
 import { Button } from "@/components/ui/button"
+import Marquee from "react-fast-marquee";
 
-export default function ClientsTestimonials() {
+export default function ClientsTestimonials({ onContact }: { onContact?: () => void }) {
   return (
     <section className="flex flex-col items-center gap-10 py-16">
       <div className="flex flex-col items-center gap-3">
         <h2 className="text-3xl sm:text-4xl text-primary font-semibold text-center">
           CLIENTES Y TESTIMONIOS
         </h2>
-        <div className="h-[4px] w-28 bg-foreground/60 rounded-full"></div>
       </div>
 
-      <div className="w-full flex items-center justify-center gap-10 flex-wrap">
-        <LogoBox>YPF</LogoBox>
+      <Marquee className="w-full" pauseOnHover style={{
+        maskImage: `linear-gradient(${
+              "to right"
+            }, transparent 0%, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%)`
+          ,
+        WebkitMaskImage: `linear-gradient(${
+              "to right"
+            }, transparent 0%, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%)`
+          ,
+      }}>
         <LogoBox>
-          <span className="font-semibold">mercado</span>
-          <span className="font-semibold"> libre</span>
+          <img src="/ypf.png" alt="YPF" width={150} />
         </LogoBox>
         <LogoBox>
-          <span className="font-semibold">amazon</span>
+          <img src="/mercadolibre.png" alt="Mercado Libre" width={150} />
         </LogoBox>
-      </div>
+        <LogoBox>
+          <img src="/amazon.png" alt="Amazon" width={150} />
+        </LogoBox>
+        <LogoBox>
+          <img src="/latam.png" alt="Latam" width={150} />
+        </LogoBox>
+      </Marquee>
 
       <div className="w-full grid sm:grid-cols-2 gap-6">
         <QuoteCard
@@ -33,7 +46,7 @@ export default function ClientsTestimonials() {
       </div>
 
       <div className="flex flex-col items-center gap-4">
-        <Button size="lg" className="rounded-full px-8">Contáctanos</Button>
+        <Button size="lg" className="rounded-full px-8" onClick={onContact}>Contáctanos</Button>
         <p className="text-center text-sm text-muted-foreground">
           Sin implementación costosa · Sin compromiso · Con soporte real
         </p>
@@ -44,7 +57,7 @@ export default function ClientsTestimonials() {
 
 function LogoBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-w-28 min-h-12 px-4 py-2 rounded-md bg-secondary text-foreground/90 flex items-center justify-center text-xl">
+    <div className="px-8 py-2 flex items-center justify-center">
       {children}
     </div>
   )
@@ -60,5 +73,3 @@ function QuoteCard({ quote, author }: { quote: string; author: string }) {
     </figure>
   )
 }
-
-

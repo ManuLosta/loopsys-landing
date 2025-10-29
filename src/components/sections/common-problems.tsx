@@ -5,7 +5,6 @@ export default function CommonProblems() {
         <h2 className="text-3xl sm:text-4xl text-primary font-semibold text-center">
           PROBLEMAS COMÚNES
         </h2>
-        <div className="h-[4px] w-28 bg-foreground/60 rounded-full"></div>
       </div>
 
       <div className="w-full border-2 border-primary/70 rounded-2xl p-6 sm:p-8">

@@ -6,6 +6,7 @@ import { LightRays } from "../ui/light-rays";
 export default function Hero({ onContact }: { onContact?: () => void }) {
   return (
     <section className="min-h-screen flex items-center">
+      <LightRays />
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -13,7 +14,6 @@ export default function Hero({ onContact }: { onContact?: () => void }) {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="max-w-3xl mx-auto px-4 flex flex-col items-center justify-center gap-4"
       >
-        <LightRays />
         <h1 
         className="sm:text-6xl text-3xl text-primary text-center">
           <span className="font-bold">PRUEBA</span> DE CONCEPTO CON <span className="font-bold">RESULTADOS MEDIBLES</span> EN <span className="font-bold">30 DIAS</span>

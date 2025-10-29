@@ -13,7 +13,7 @@ interface StepFormData {
 
 export default function ContactFlow({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<Step>("form")
-  const [formData, setFormData] = useState<StepFormData | null>(null)
+  const [_, setFormData] = useState<StepFormData | null>(null)
 
   const handleFormComplete = (data: StepFormData) => {
     setFormData(data)

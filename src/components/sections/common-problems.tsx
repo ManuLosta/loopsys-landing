@@ -51,7 +51,7 @@ function ProblemItem({ title, description }: { title: string; description: strin
 
 function BulletIcon({ className = "" }: { className?: string }) {
   return (
-    <img src="/bullet.svg" alt="Bullet" width={24} height={24} className={className} />
+    <img src="bullet.svg" alt="Bullet" width={24} height={24} className={className} />
   )
 }
 

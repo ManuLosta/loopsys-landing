@@ -32,13 +32,13 @@ export default function MeetingPreview() {
 
 function LightbulbIcon({ className = "" }: { className?: string }) {
   return (
-    <img src="/lightbulb.svg" alt="Lightbulb" width={24} height={24} className={className} />
+    <img src="lightbulb.svg" alt="Lightbulb" width={24} height={24} className={className} />
   )
 }
 
 function ProcessIcon({ className = "" }: { className?: string }) {
   return (
-    <img src="/box.svg" alt="Process" width={24} height={24} className={className} />
+    <img src="box.svg" alt="Process" width={24} height={24} className={className} />
   )
 }
 

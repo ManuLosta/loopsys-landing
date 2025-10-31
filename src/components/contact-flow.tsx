@@ -30,13 +30,6 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
     const qualified = computeIsQualified(data)
     setIsQualified(qualified)
 
-    trackMetaEvent("Lead", {
-      employees: data.employees,
-      role: data.role,
-      hasERP: data.hasERP,
-      processes: data.processes.join(","),
-    })
-
     if (qualified) {
       trackMetaEvent("LeadQualified", {
         employees: data.employees,

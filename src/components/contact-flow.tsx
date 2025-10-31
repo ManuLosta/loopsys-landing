@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import StepForm from "./step-form"
 import { InlineWidget } from "react-calendly"
 import { useEffect } from "react"
-import { trackMetaEvent } from "@/lib/analytics"
+import { trackMetaCustomEvent } from "@/lib/analytics"
 
 type Step = "form" | "calendly"
 
@@ -34,7 +34,7 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
 
   const handleClose = (hasScheduled: boolean) => {
     if (isQualified && !hasScheduled && formData) {
-      trackMetaEvent("Lead", {
+      trackMetaCustomEvent("LeadCualificado", {
         employees: formData.employees,
         role: formData.role,
         hasERP: formData.hasERP,
@@ -80,7 +80,7 @@ function CalendlyPlaceholder({ onClose, isQualified, formData }: { onClose: (has
         hasScheduledRef.current = true
         
         if (isQualified && formData) {
-          trackMetaEvent("Lead", {
+          trackMetaCustomEvent("AgendaCualificada", {
             employees: formData.employees,
             role: formData.role,
             hasERP: formData.hasERP,

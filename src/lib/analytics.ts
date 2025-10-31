@@ -61,6 +61,11 @@ export function trackMetaEvent(eventName: string, params?: Record<string, unknow
   window.fbq?.('track', eventName, params || {})
 }
 
+export function trackMetaCustomEvent(eventName: string, params?: Record<string, unknown>): void {
+  console.log('[Meta Pixel] trackCustom', eventName, params || {})
+  window.fbq?.('trackCustom', eventName, params || {})
+}
+
 const envPixelId = import.meta.env.VITE_META_PIXEL_ID
 console.log('[Meta Pixel] Checking env var:', { 
   envPixelId, 

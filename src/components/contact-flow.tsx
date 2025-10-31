@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import StepForm from "./step-form"
 import { InlineWidget } from "react-calendly"
@@ -29,19 +29,19 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
     setFormData(data)
     const qualified = computeIsQualified(data)
     setIsQualified(qualified)
-
-    if (qualified) {
-      trackMetaEvent("LeadQualified", {
-        employees: data.employees,
-        role: data.role,
-        hasERP: data.hasERP,
-        processes: data.processes.join(","),
-      })
-    }
     setStep("calendly")
   }
 
-  const handleClose = () => {
+  const handleClose = (hasScheduled: boolean) => {
+    if (isQualified && !hasScheduled && formData) {
+      trackMetaEvent("Lead", {
+        employees: formData.employees,
+        role: formData.role,
+        hasERP: formData.hasERP,
+        processes: formData.processes.join(","),
+        scheduled: false,
+      })
+    }
     setStep("form")
     setFormData(null)
     onClose()
@@ -65,29 +65,38 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
   )
 }
 
-function CalendlyPlaceholder({ onClose, isQualified, formData }: { onClose: () => void; isQualified: boolean; formData: StepFormData | null }) {
-  const calendlyUrl = import.meta.env.VITE_CALENDLY_URL ?? ""
+function CalendlyPlaceholder({ onClose, isQualified, formData }: { onClose: (hasScheduled: boolean) => void; isQualified: boolean; formData: StepFormData | null }) {
+  const calendlyUrl = import.meta.env.VITE_CALENDLY_URL 
+  const hasScheduledRef = useRef(false)
+
+  useEffect(() => {
+    hasScheduledRef.current = false
+  }, [])
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (typeof e.data !== "object" || !e.data) return
       if ((e.data as any).event === "calendly.event_scheduled") {
-        if (isQualified) {
-          trackMetaEvent("Schedule", {
-            qualified: true,
-            employees: formData?.employees,
-            role: formData?.role,
-            hasERP: formData?.hasERP,
-            processes: formData?.processes?.join(","),
+        hasScheduledRef.current = true
+        
+        if (isQualified && formData) {
+          trackMetaEvent("Lead", {
+            employees: formData.employees,
+            role: formData.role,
+            hasERP: formData.hasERP,
+            processes: formData.processes.join(","),
+            scheduled: true,
           })
-        } else {
-          trackMetaEvent("Schedule", { qualified: false })
-        }
+        } 
       }
     }
     window.addEventListener("message", onMessage)
     return () => window.removeEventListener("message", onMessage)
   }, [isQualified, formData])
+
+  const handleClose = () => {
+    onClose(hasScheduledRef.current)
+  }
 
   return (
     <div className="flex flex-col gap-6 w-full h-full min-h-0">
@@ -96,7 +105,7 @@ function CalendlyPlaceholder({ onClose, isQualified, formData }: { onClose: () =
         <InlineWidget url={calendlyUrl} styles={{ height: "100%", width: "100%", minWidth: "320px" }} />
       </div>
       <div className="flex items-center justify-end">
-        <Button onClick={onClose} className="px-6">Cerrar</Button>
+        <Button onClick={handleClose} className="px-6">Cerrar</Button>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import StepForm from "./step-form"
+import { InlineWidget } from "react-calendly"
 
 type Step = "form" | "calendly"
 
@@ -31,7 +32,7 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
       <div className="h-full w-full flex flex-col">
         <div className="relative flex-1 overflow-auto">
 
-          <div className="w-full md:max-w-3xl mx-auto px-4 py-8">
+          <div className="w-full max-w-screen-xl mx-auto px-4 py-8 h-full min-h-0 flex flex-col">
             {step === "form" ? (
               <StepForm onComplete={handleFormComplete} />
             ) : (
@@ -45,15 +46,15 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
 }
 
 function CalendlyPlaceholder({ onClose }: { onClose: () => void }) {
+  const calendlyUrl = import.meta.env.VITE_CALENDLY_URL ?? "https://calendly.com/juanrawson/30min"
   return (
-    <div className="p-6 sm:p-8 flex flex-col gap-6 w-full md:max-w-3xl mx-auto">
+    <div className="flex flex-col gap-6 w-full h-full min-h-0">
       <h3 className="text-3xl sm:text-4xl font-semibold text-center">Agenda tu reunión</h3>
-      <p className="text-center text-muted-foreground">Aquí iría el embed de Calendly (no integrado).</p>
-      <div className="border rounded-xl h-[600px] flex items-center justify-center bg-secondary">
-        <span className="text-muted-foreground">Calendly aquí</span>
+      <div className="flex-1 min-h-0">
+        <InlineWidget url={calendlyUrl} styles={{ height: "100%", width: "100%", minWidth: "320px" }} />
       </div>
       <div className="flex items-center justify-end">
-        <Button onClick={onClose} className="rounded-full px-6">Cerrar</Button>
+        <Button onClick={onClose} className="px-6">Cerrar</Button>
       </div>
     </div>
   )

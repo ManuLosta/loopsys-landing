@@ -4,6 +4,7 @@ import { Stepper } from "@/components/ui/stepper"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cn } from "@/lib/utils"
+import { ArrowRightIcon } from "lucide-react"
 
 interface StepFormData {
   processes: string[]
@@ -256,16 +257,7 @@ export default function StepForm({ onComplete }: StepFormProps) {
             className="h-12 px-8 text-base"
           >
             <span>{currentStep === totalSteps ? "Finalizar" : "Siguiente"}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-5"
-              aria-hidden="true"
-            >
-              <path d="M13.293 4.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 1 1-1.414-1.414L17.586 12l-4.293-4.293a1 1 0 0 1 0-1.414Z"/>
-              <path d="M3 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Z"/>
-            </svg>
+            <ArrowRightIcon className="size-5" />
           </Button>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRightIcon } from "lucide-react"
 import { motion } from "motion/react";
 import { LightRays } from "../ui/light-rays";
+import { trackMetaEvent } from "@/lib/analytics";
 
 export default function Hero({ onContact }: { onContact?: () => void }) {
   return (
@@ -21,7 +22,14 @@ export default function Hero({ onContact }: { onContact?: () => void }) {
         <p className="text-center text-muted-foreground text-lg">
           Sin compromisos ni venta forzada
         </p>
-        <Button size="lg" className="hover:scale-105 transition-all duration-300 mt-4" onClick={onContact}>
+        <Button
+          size="lg"
+          className="hover:scale-105 transition-all duration-300 mt-4"
+          onClick={() => {
+            trackMetaEvent("Contact")
+            onContact?.()
+          }}
+        >
           Contáctanos
           <ArrowRightIcon className="size-4" />
         </Button>

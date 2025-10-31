@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRightIcon, QuoteIcon } from "lucide-react";
 import Marquee from "react-fast-marquee";
 import { motion } from "motion/react";
+import { trackMetaEvent } from "@/lib/analytics";
 
 export default function ClientsTestimonials({ onContact }: { onContact?: () => void }) {
   return (
@@ -55,7 +56,14 @@ export default function ClientsTestimonials({ onContact }: { onContact?: () => v
         </div>
 
         <div className="flex flex-col items-center gap-4">
-        <Button size="lg" className="hover:scale-105 transition-all duration-300" onClick={onContact}>
+        <Button
+          size="lg"
+          className="hover:scale-105 transition-all duration-300"
+          onClick={() => {
+            trackMetaEvent("Contact")
+            onContact?.()
+          }}
+        >
           Contáctanos
           <ArrowRightIcon className="size-4" />
         </Button>

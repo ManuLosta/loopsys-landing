@@ -2,6 +2,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import StepForm from "./step-form"
 import { InlineWidget } from "react-calendly"
+import { useEffect } from "react"
+import { trackMetaEvent } from "@/lib/analytics"
 
 type Step = "form" | "calendly"
 
@@ -14,10 +16,35 @@ interface StepFormData {
 
 export default function ContactFlow({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<Step>("form")
-  const [_, setFormData] = useState<StepFormData | null>(null)
+  const [formData, setFormData] = useState<StepFormData | null>(null)
+  const [isQualified, setIsQualified] = useState<boolean>(false)
+
+  const computeIsQualified = (data: StepFormData): boolean => {
+    if (data.hasERP === "No") return false
+    if (["Gerente", "Otro"].includes(data.role)) return false
+    return true
+  }
 
   const handleFormComplete = (data: StepFormData) => {
     setFormData(data)
+    const qualified = computeIsQualified(data)
+    setIsQualified(qualified)
+
+    trackMetaEvent("Lead", {
+      employees: data.employees,
+      role: data.role,
+      hasERP: data.hasERP,
+      processes: data.processes.join(","),
+    })
+
+    if (qualified) {
+      trackMetaEvent("LeadQualified", {
+        employees: data.employees,
+        role: data.role,
+        hasERP: data.hasERP,
+        processes: data.processes.join(","),
+      })
+    }
     setStep("calendly")
   }
 
@@ -36,7 +63,7 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
             {step === "form" ? (
               <StepForm onComplete={handleFormComplete} />
             ) : (
-              <CalendlyPlaceholder onClose={handleClose} />
+              <CalendlyPlaceholder onClose={handleClose} isQualified={isQualified} formData={formData} />
             )}
           </div>
         </div>
@@ -45,8 +72,30 @@ export default function ContactFlow({ onClose }: { onClose: () => void }) {
   )
 }
 
-function CalendlyPlaceholder({ onClose }: { onClose: () => void }) {
-  const calendlyUrl = import.meta.env.VITE_CALENDLY_URL ?? "https://calendly.com/juanrawson/30min"
+function CalendlyPlaceholder({ onClose, isQualified, formData }: { onClose: () => void; isQualified: boolean; formData: StepFormData | null }) {
+  const calendlyUrl = import.meta.env.VITE_CALENDLY_URL ?? ""
+
+  useEffect(() => {
+    function onMessage(e: MessageEvent) {
+      if (typeof e.data !== "object" || !e.data) return
+      if ((e.data as any).event === "calendly.event_scheduled") {
+        if (isQualified) {
+          trackMetaEvent("Schedule", {
+            qualified: true,
+            employees: formData?.employees,
+            role: formData?.role,
+            hasERP: formData?.hasERP,
+            processes: formData?.processes?.join(","),
+          })
+        } else {
+          trackMetaEvent("Schedule", { qualified: false })
+        }
+      }
+    }
+    window.addEventListener("message", onMessage)
+    return () => window.removeEventListener("message", onMessage)
+  }, [isQualified, formData])
+
   return (
     <div className="flex flex-col gap-6 w-full h-full min-h-0">
       <h3 className="text-3xl sm:text-4xl font-semibold text-center">Agenda tu reunión</h3>
